@@ -8,5 +8,5 @@ then
 fi
 
 
-createAppJsObj account main.js $1
+createAppJsObj account main.js -A $1
 

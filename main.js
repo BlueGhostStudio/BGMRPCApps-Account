@@ -4,8 +4,15 @@ methods = ['register', 'updateAccount', 'login', 'getToken'];
 
 function constructor() {
     JS.loadModule('jsDB');
+    JS.loadModule('jsFile');
     JS.include('../common/randomStr.js');
     JS.include('../common/sqlStmFra.js');
+
+    var file = new JsFile;
+    if (!file.exists(JS.__PATH_DATA__)) {
+        file.mkpath(JS.__PATH_DATA__);
+        file.copy(JS.__PATH_APP__ + '/account.db', JS.__PATH_DATA__ + '/account.db');
+    }
 
     DB = new JsDB;
     DB.openDB('account.db');
@@ -48,5 +55,6 @@ function login(caller, token) {
 }
 
 function getToken(caller) {
+    console.log("----- getToken -------", caller.__ISINTERNALCALL__, caller.__GRP__, caller.__APP__, caller.__OBJECT__, caller.__OBJECTID__);
     return caller.privateData(JS, 'token');
 }
